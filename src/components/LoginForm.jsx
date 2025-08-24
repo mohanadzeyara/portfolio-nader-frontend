@@ -1,40 +1,53 @@
-import React from "react";
-import { useState } from 'react';
-import { api } from '../api';
-import { ADMIN_EMAIL } from '../auth';
+// src/pages/Login.jsx
+import { useState } from "react";
+import axios from "axios";
 
-export default function LoginForm({ onLogin }) {
-  const [email, setEmail] = useState(ADMIN_EMAIL);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  async function submit(e) {
+  const API = import.meta.env.VITE_API_URL;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    if (email.toLowerCase() !== ADMIN_EMAIL) {
-      setError('Only the designated admin email can sign in.');
-      return;
-    }
     try {
-      const res = await api.login(email, password);
-      onLogin(res.token);
-      setPassword('');
+      const res = await axios.post(`${API}/auth/login`, { email, password });
+      localStorage.setItem("token", res.data.token);
+      window.location.href = "/";
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || "Invalid credentials");
     }
-  }
+  };
 
   return (
-    <form onSubmit={submit} className="card" style={{ maxWidth: 420 }}>
-      <h3>Admin Sign In</h3>
-      <label>Email</label>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder={ADMIN_EMAIL} />
-      <label>Password</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
-      <div className="row">
-        <button className="btn primary" type="submit">Sign In</button>
-        {error && <span className="small" style={{ color: 'crimson' }}>{error}</span>}
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-3 border rounded-xl"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 border rounded-xl"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700"
+          >
+            Login
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }
