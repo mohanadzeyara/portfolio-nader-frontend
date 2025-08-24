@@ -12,8 +12,13 @@ import FileUploads from './components/FileUploads.jsx';
 export default function App() {
   const { token, setToken, logout } = useAuth();
   const [ready, setReady] = useState(true);
+  const [showAdmin, setShowAdmin] = useState(false);
 
-  useEffect(() => { setReady(true); }, []);
+  useEffect(() => {
+    setReady(true);
+    // Show admin login if URL hash is #admin
+    if (window.location.hash === "#admin") setShowAdmin(true);
+  }, []);
 
   return (
     <div>
@@ -21,7 +26,6 @@ export default function App() {
         <div className="container row" style={{ justifyContent: 'space-between' }}>
           <h1 style={{ margin: 0 }}>Nader Zeyara</h1>
           <nav className="row">
-            {!token && <a href="#admin">Admin</a>}
             {token && <a href="#edit">Edit</a>}
           </nav>
         </div>
@@ -36,7 +40,7 @@ export default function App() {
         <CustomSections token={token} />
         {token && <FileUploads token={token} />}
 
-        {!token && (
+        {!token && showAdmin && (
           <section id="admin">
             <LoginForm onLogin={setToken} />
           </section>
@@ -45,7 +49,7 @@ export default function App() {
 
       <footer>
         <div className="container row" style={{ justifyContent: 'space-between' }}>
-          <span>© {new Date().getFullYear()} {`Nader Zeyara`}</span>
+          <span>© {new Date().getFullYear()} Nader Zeyara</span>
           <span className="small">Built with React + Vite</span>
         </div>
       </footer>
