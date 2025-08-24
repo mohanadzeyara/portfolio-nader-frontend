@@ -42,4 +42,8 @@ export const api = {
     fd.append('photo', file);
     return request('/upload/photo', { method: 'POST', token, body: fd, isForm: true });
   }
+
+,  // Contacts
+   getContacts: () => request('/contacts'),
+   updateContacts: (token, data) => request('/contacts', { method: 'PUT', token, body: data })
 };

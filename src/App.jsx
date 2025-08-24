@@ -8,7 +8,7 @@ import FieldsSection from "./components/FieldsSection.jsx";
 import CustomSections from "./components/CustomSections.jsx";
 import FileUploads from "./components/FileUploads.jsx";
 import ContactSection from "./components/ContactSection.jsx";
-import './style.css';
+import './styles.css';
 
 export default function App() {
   const { token, setToken, logout } = useAuth();

@@ -166,3 +166,18 @@ a:hover {
     justify-content: center;
   }
 }
+
+
+/* --- Enhanced UI polish --- */
+.card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+.btn { border: 0; border-radius: 12px; padding: 10px 16px; font-weight: 600; cursor: pointer; }
+.btn.primary { background: var(--primary-color); color: #fff; }
+.btn.ghost { background: transparent; border: 2px solid var(--primary-color); color: var(--primary-color); }
+.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.form label { display: grid; gap: 6px; font-weight: 600; }
+.form input, .form textarea, input, textarea { border: 1px solid #ddd; border-radius: 10px; padding: 10px 12px; font: inherit; }
+.grid.two { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+a { color: var(--primary-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.muted { color: var(--muted); }
